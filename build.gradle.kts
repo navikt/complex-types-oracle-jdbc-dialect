@@ -28,6 +28,7 @@ dependencies {
     implementation("org.apache.kafka", "kafka-clients",  "2.4.1")
     implementation("org.apache.kafka", "connect-api", "2.4.1")
     implementation("io.confluent:kafka-connect-jdbc:5.4.1")
+    implementation("com.datamountaineer:kafka-connect-common:1.1.9")
 
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
     implementation("com.google.guava:guava:28.1-jre")

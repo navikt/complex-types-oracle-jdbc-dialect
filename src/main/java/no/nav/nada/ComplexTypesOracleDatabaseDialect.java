@@ -3,6 +3,9 @@
  */
 package no.nav.nada;
 
+import com.datamountaineer.streamreactor.connect.json.SimpleJsonConverter;
+
+import com.fasterxml.jackson.databind.JsonNode;
 import io.confluent.connect.jdbc.dialect.DatabaseDialect;
 import io.confluent.connect.jdbc.dialect.DatabaseDialectProvider;
 import io.confluent.connect.jdbc.dialect.OracleDatabaseDialect;
@@ -10,10 +13,16 @@ import io.confluent.connect.jdbc.sink.metadata.SinkRecordField;
 import org.apache.kafka.common.config.AbstractConfig;
 import org.apache.kafka.connect.data.*;
 
+
 import java.nio.ByteBuffer;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/**
+ * An extended OracleDatabaseDialect that extends {@link OracleDatabaseDialect} with support for {@link Struct} types.
+ * Converts {@link Struct} fields in a {@link org.apache.kafka.connect.sink.SinkRecord} to a JSON string and writes the
+ * field to Oracle as a CLOB.
+ */
 public class ComplexTypesOracleDatabaseDialect extends OracleDatabaseDialect {
 
     private static String SUB_PROTOCOL_NAME = "oraclecmplx";
@@ -123,7 +132,9 @@ public class ComplexTypesOracleDatabaseDialect extends OracleDatabaseDialect {
                 statement.setBytes(index, bytes);
                 break;
             case STRUCT:
-                statement.setString(index, value.toString());
+                SimpleJsonConverter simpleJson = new SimpleJsonConverter(); // SimpleJsonConverter from datamountaineer
+                JsonNode node = simpleJson.fromConnectData(schema, value);
+                statement.setString(index, node.toString());
                 break;
 
             default:
