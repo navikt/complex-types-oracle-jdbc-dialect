@@ -82,6 +82,7 @@ public class ComplexTypesOracleDatabaseDialect extends OracleDatabaseDialect {
                 return "BLOB";
             // Added to handle complex types
             case STRUCT:
+            case ARRAY:
                 return "CLOB";
             default:
                 return super.getSqlType(field);
@@ -132,6 +133,7 @@ public class ComplexTypesOracleDatabaseDialect extends OracleDatabaseDialect {
                 statement.setBytes(index, bytes);
                 break;
             case STRUCT:
+            case ARRAY:
                 SimpleJsonConverter simpleJson = new SimpleJsonConverter(); // SimpleJsonConverter from datamountaineer
                 JsonNode node = simpleJson.fromConnectData(schema, value);
                 statement.setString(index, node.toString());
