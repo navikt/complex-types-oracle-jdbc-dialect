@@ -9,7 +9,7 @@ Converts Struct fields in a SinkRecord to a JSON string and writes the field to 
 #### VarcharAndComplexTypesOracleDatabaseDialect
 Extends OracleDatabaseDialect with support for Struct types (as above) and also converts String fields to a VARCHAR(4000) column in Oracle.
 
-An `IllegalArgumentException` will be thrown if the String value is longer than 4000 bytes.
+An `IllegalArgumentException` will be thrown if the String value is longer than 2000 bytes.
 
 
 
