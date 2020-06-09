@@ -118,8 +118,8 @@ public class VarcharAndComplexTypesOracleDatabaseDialect extends OracleDatabaseD
                 statement.setBoolean(index, (Boolean) value);
                 break;
             case STRING:
-                if (((String) value).getBytes().length >4000) {
-                    throw new IllegalArgumentException("String value longer than 4000 bytes");
+                if (((String) value).getBytes().length >2000) {
+                    throw new IllegalArgumentException("String value longer than 2000 bytes");
                 } else {
                     statement.setString(index, (String) value);
                 }
